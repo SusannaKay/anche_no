@@ -1,0 +1,552 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CORCAZZO.IT - Il portale ufficiale del NO</title>
+  <meta name="description" content="Genera un CORCAZZO personalizzato da condividere con amici, colleghi, ex, gruppi WhatsApp e proposte indecenti.">
+  <meta property="og:title" content="CORCAZZO.IT">
+  <meta property="og:description" content="Quando un semplice no non basta.">
+  <meta property="og:type" content="website">
+  <meta name="theme-color" content="#ff00ff">
+  <style>
+    html, body { margin: 0; padding: 0; }
+    body {
+      min-height: 100vh;
+      color: #ffff00;
+      font-family: "Comic Sans MS", "Comic Sans", "Times New Roman", serif;
+      background-color: #000033;
+      background-image:
+        radial-gradient(#fff 1px, transparent 1px),
+        radial-gradient(#ff00ff 1px, transparent 1px),
+        radial-gradient(#00ffff 1px, transparent 1px);
+      background-size: 31px 31px, 47px 47px, 79px 79px;
+      background-position: 0 0, 12px 18px, 45px 8px;
+      cursor: crosshair;
+    }
+
+    a { color: #00ffff; }
+    a:hover { color: #ff00ff; background: #ffff00; }
+
+    .page {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 14px;
+    }
+
+    .topbar {
+      border: 6px ridge #ff00ff;
+      background: #000;
+      padding: 8px;
+      margin: 8px 0 12px;
+      text-align: center;
+      box-shadow: 0 0 22px #ff00ff;
+    }
+
+    marquee {
+      color: #00ff00;
+      font-weight: bold;
+      text-shadow: 2px 2px #ff0000;
+      letter-spacing: 2px;
+    }
+
+    h1 {
+      font-size: clamp(42px, 11vw, 116px);
+      line-height: .82;
+      margin: 18px 0 4px;
+      color: #ff00ff;
+      text-align: center;
+      text-shadow: 5px 5px 0 #00ffff, 9px 9px 0 #ff0000;
+      animation: wobble 1.1s infinite alternate ease-in-out;
+    }
+
+    @keyframes wobble {
+      from { transform: rotate(-1deg) scale(1); }
+      to { transform: rotate(1deg) scale(1.015); }
+    }
+
+    .blink { animation: blink .65s steps(1) infinite; }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    .subtitle {
+      text-align: center;
+      color: #fff;
+      font-size: 21px;
+      margin: 10px auto 18px;
+      max-width: 820px;
+      background: #000;
+      border: 3px dotted #00ff00;
+      padding: 10px;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 170px 1fr 170px;
+      gap: 12px;
+      align-items: start;
+    }
+
+    .side, .mainbox, .certificate, .guestbook {
+      background: #000;
+      border: 5px outset #c0c0c0;
+      padding: 12px;
+    }
+
+    .side {
+      color: #fff;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    .badge {
+      display: block;
+      border: 3px inset #999;
+      background: linear-gradient(90deg, #ff0000, #ffff00, #00ff00, #00ffff, #ff00ff);
+      color: #000;
+      font-weight: bold;
+      padding: 7px;
+      margin: 10px 0;
+      text-decoration: none;
+    }
+
+    .skull {
+      font-size: 46px;
+      line-height: 1;
+      display: inline-block;
+      animation: dance .5s infinite alternate;
+    }
+    @keyframes dance { from { transform: rotate(-8deg) translateY(0); } to { transform: rotate(8deg) translateY(-8px); } }
+
+    .mainbox {
+      color: #ffff00;
+      border-color: #00ffff;
+      box-shadow: 0 0 25px #00ffff;
+    }
+
+    .intro {
+      font-size: 20px;
+      line-height: 1.35;
+      color: #fff;
+      text-align: center;
+    }
+
+    .question-panel {
+      margin: 18px 0;
+      background: #000080;
+      border: 4px double #ffff00;
+      padding: 14px;
+    }
+
+    label {
+      display: block;
+      color: #00ff00;
+      font-size: 22px;
+      font-weight: bold;
+      margin-bottom: 8px;
+      text-shadow: 2px 2px #000;
+    }
+
+    input[type="text"] {
+      width: calc(100% - 20px);
+      font-size: 20px;
+      padding: 9px;
+      background: #ffffcc;
+      border: 4px inset #c0c0c0;
+      color: #000;
+      font-family: "Comic Sans MS", "Comic Sans", sans-serif;
+    }
+
+    button, .fake-button {
+      cursor: pointer;
+      font-family: "Comic Sans MS", "Comic Sans", sans-serif;
+      font-size: 18px;
+      font-weight: bold;
+      color: #000;
+      background: #c0c0c0;
+      border: 5px outset #fff;
+      padding: 9px 13px;
+      margin: 8px 5px 0 0;
+      box-shadow: 3px 3px 0 #000;
+    }
+    button:active, .fake-button:active { border-style: inset; transform: translate(2px, 2px); box-shadow: 1px 1px 0 #000; }
+
+    .answer {
+      display: none;
+      text-align: center;
+      margin: 18px 0 8px;
+      border: 6px groove #ff0000;
+      background: #330000;
+      padding: 14px;
+    }
+
+    .answer.is-visible { display: block; }
+
+    .request-label { color: #00ffff; font-size: 18px; }
+    .request-text {
+      color: #fff;
+      font-size: clamp(21px, 4vw, 36px);
+      margin: 10px 0;
+      word-break: break-word;
+    }
+
+    .loading {
+      color: #00ff00;
+      background: #000;
+      display: inline-block;
+      border: 2px dashed #00ff00;
+      padding: 7px 12px;
+      margin: 5px;
+      font-family: "Courier New", monospace;
+    }
+
+    .big-no {
+      color: #ff0000;
+      background: #ffff00;
+      display: inline-block;
+      font-size: clamp(56px, 13vw, 142px);
+      line-height: .88;
+      padding: 8px 18px 16px;
+      margin: 12px 0;
+      border: 8px ridge #ff00ff;
+      text-shadow: 5px 5px 0 #000;
+      transform: rotate(-2deg);
+    }
+
+    .mode-line {
+      color: #fff;
+      font-size: 24px;
+      margin-top: 8px;
+    }
+
+    .sharebox {
+      margin-top: 14px;
+      padding: 12px;
+      border: 3px dotted #00ffff;
+      background: #000;
+      color: #fff;
+    }
+
+    .share-url {
+      font-family: "Courier New", monospace;
+      color: #00ff00;
+      word-break: break-all;
+      background: #001900;
+      border: 2px inset #00ff00;
+      padding: 8px;
+      margin: 8px 0;
+    }
+
+    .modes {
+      margin-top: 12px;
+      text-align: left;
+      color: #fff;
+    }
+    .modes strong { color: #ffff00; }
+
+    .certificate {
+      display: none;
+      margin-top: 16px;
+      background: #ffffcc;
+      color: #000;
+      border: 8px double #000;
+      font-family: "Times New Roman", serif;
+      text-align: center;
+      box-shadow: 7px 7px 0 rgba(0,0,0,.7);
+    }
+    .certificate.is-visible { display: block; }
+    .certificate h2 { font-size: 34px; margin: 5px 0; color: #000080; text-decoration: underline; }
+    .seal {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 120px; height: 120px;
+      border-radius: 50%;
+      border: 7px double #800000;
+      color: #800000;
+      transform: rotate(-12deg);
+      font-weight: bold;
+      margin: 8px;
+    }
+
+    .guestbook { margin-top: 16px; color: #fff; }
+    .guestbook h3 { color: #ff00ff; margin-top: 0; }
+    .entry { border-top: 1px dashed #00ffff; padding: 8px 0; }
+    .entry b { color: #00ff00; }
+
+    .footer {
+      text-align: center;
+      color: #fff;
+      background: #000;
+      border: 4px ridge #ffff00;
+      margin: 16px 0;
+      padding: 12px;
+      font-size: 14px;
+    }
+
+    .counter {
+      display: inline-block;
+      background: #111;
+      color: #ff3300;
+      border: 3px inset #666;
+      padding: 4px 9px;
+      font-family: "Courier New", monospace;
+      letter-spacing: 2px;
+    }
+
+    .webring {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    @media (max-width: 840px) {
+      .layout { grid-template-columns: 1fr; }
+      .side { order: 2; }
+      .mainbox { order: 1; }
+      h1 { text-shadow: 3px 3px 0 #00ffff, 6px 6px 0 #ff0000; }
+    }
+
+    @media print {
+      body { background: #fff; color: #000; }
+      .topbar, .side, .question-panel, .sharebox, .guestbook, .footer, .subtitle, h1 { display: none !important; }
+      .layout { display: block; }
+      .mainbox { border: none; box-shadow: none; }
+      .answer { display: none !important; }
+      .certificate { display: block !important; box-shadow: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="topbar">
+      <marquee scrollamount="9">*** NO NO NO NO NO NO NO *** BEST VIEWED WITH NETSCAPE NAVIGATOR 4.0 *** GRATIS - BRUTALE - STATICO - DAL 1997 ***</marquee>
+    </div>
+
+    <h1><span class="blink">CORCAZZO</span><br>.IT</h1>
+    <p class="subtitle">Il portale italiano per dire <b>NO</b> con eleganza discutibile.</p>
+
+    <div class="layout">
+      <aside class="side" aria-label="decorazioni anni novanta sinistra">
+        <div class="skull">☠️</div>
+        <p><b>UNDER<br>CONSTRUCTION</b></p>
+        <div>🚧 🚧 🚧</div>
+        <a class="badge" href="#generator">GENERA ORA</a>
+        <p>Questo sito non usa cookie perché corcazzo.</p>
+        <p>Visitatori:</p>
+        <span class="counter" id="counter">00000069</span>
+      </aside>
+
+      <main class="mainbox">
+        <p class="intro">
+          Quando un semplice “no” non basta.<br>
+          Quando “forse” sarebbe disonesto.<br>
+          Quando serve chiarezza, fermezza e un dominio italiano.
+        </p>
+
+        <section class="question-panel" id="generator">
+          <label for="proposal">Scrivi la proposta indecente:</label>
+          <input id="proposal" type="text" maxlength="140" placeholder="es. venire alla cena, prestarmi 50 euro, tornare col tuo ex">
+          <div>
+            <button id="generateBtn" type="button">GENERA IL MIO CORCAZZO</button>
+            <button id="randomBtn" type="button">ISPIRAMI UNA SCUSA</button>
+          </div>
+        </section>
+
+        <section class="answer" id="answer" aria-live="polite">
+          <div class="request-label">RICHIESTA RICEVUTA:</div>
+          <div class="request-text" id="requestText">“...”</div>
+          <div class="loading">ELABORAZIONE BUONSENSO.EXE...</div>
+          <div><span class="skull">☠️</span> <span class="skull">💀</span> <span class="skull">☠️</span></div>
+          <marquee scrollamount="13">NO NO NO NO NO NO NO NO NO NO NO NO NO NO NO NO</marquee>
+          <div class="request-label">RISPOSTA UFFICIALE:</div>
+          <div class="big-no">CORCAZZO.</div>
+          <div class="mode-line" id="modeLine">Formula piena e irrevocabile.</div>
+
+          <div class="modes">
+            <strong>Modalità speciali:</strong><br>
+            <button type="button" data-mode="diplomatica">Diplomatica</button>
+            <button type="button" data-mode="romana">Romana</button>
+            <button type="button" data-mode="aziendale">Aziendale</button>
+            <button type="button" data-mode="sentimentale">Sentimentale</button>
+            <button type="button" data-mode="definitiva">Definitiva</button>
+          </div>
+
+          <div class="sharebox">
+            <b>Link da mandare al malcapitato:</b>
+            <div class="share-url" id="shareUrl"></div>
+            <button id="copyBtn" type="button">COPIA LINK</button>
+            <button id="printBtn" type="button">STAMPA CERTIFICATO</button>
+            <div id="copyStatus" role="status"></div>
+          </div>
+        </section>
+
+        <section class="certificate" id="certificate">
+          <div class="seal">NO<br>UFFICIALE</div>
+          <h2>CERTIFICATO DI CORCAZZO</h2>
+          <p>Si certifica che la seguente proposta:</p>
+          <p><b id="certRequest">“...”</b></p>
+          <p>è stata respinta con formula piena, solenne e irrevocabile:</p>
+          <p style="font-size: 54px; margin: 8px 0;"><b>CORCAZZO.</b></p>
+          <p>Data: <span id="certDate"></span></p>
+          <p>Firma: <i>Il Comitato Supremo del No</i></p>
+        </section>
+
+        <section class="guestbook">
+          <h3>Guestbook finto</h3>
+          <div class="entry"><b>Marco_98:</b> Mi ha salvato dal calcetto del giovedì. 5 stelline.</div>
+          <div class="entry"><b>Principessa_Del_No:</b> Finalmente un sito istituzionale.</div>
+          <div class="entry"><b>Anonimo:</b> Posso convincerti? <b>CORCAZZO.</b></div>
+        </section>
+      </main>
+
+      <aside class="side" aria-label="decorazioni anni novanta destra">
+        <p><b>AWARDS</b></p>
+        <div class="badge">SITO DEL MESE<br>1997</div>
+        <div class="badge">NO GDPR<br>NO PARTY</div>
+        <p>Disponibile anche in inglese:</p>
+        <p><b>FUCK NO.</b></p>
+        <p class="blink">NEW!!!</p>
+        <p>Termini e condizioni:<br>corcazzo.</p>
+      </aside>
+    </div>
+
+    <footer class="footer">
+      <p id="randomLine">FAQ: Posso convincerti? No.</p>
+      <div class="webring">
+        <span class="fake-button">&lt;&lt; PREV</span>
+        <span class="fake-button">CORCAZZO WEB RING</span>
+        <span class="fake-button">NEXT &gt;&gt;</span>
+      </div>
+      <p>Powered by corcazzo.it — il rifiutatore automatico italiano.</p>
+    </footer>
+  </div>
+
+  <script>
+    (function () {
+      var input = document.getElementById('proposal');
+      var answer = document.getElementById('answer');
+      var requestText = document.getElementById('requestText');
+      var modeLine = document.getElementById('modeLine');
+      var shareUrl = document.getElementById('shareUrl');
+      var copyStatus = document.getElementById('copyStatus');
+      var certificate = document.getElementById('certificate');
+      var certRequest = document.getElementById('certRequest');
+      var certDate = document.getElementById('certDate');
+      var counter = document.getElementById('counter');
+      var randomLine = document.getElementById('randomLine');
+
+      var modeTexts = {
+        normale: 'Formula piena e irrevocabile.',
+        diplomatica: 'Ti ringrazio per la proposta, ma corcazzo.',
+        romana: 'A bello, corcazzo.',
+        aziendale: 'Dopo attenta valutazione interna, abbiamo deciso: corcazzo.',
+        sentimentale: 'Ti voglio bene, ma corcazzo.',
+        definitiva: 'Non ora. Non dopo. Non mai. Corcazzo.'
+      };
+
+      var suggestions = [
+        'venire alla cena aziendale',
+        'prestarmi 50 euro',
+        'fare una call veloce alle 19:30',
+        'tornare con il tuo ex',
+        'andare a correre alle 6 di mattina',
+        'uscire solo per un drink tranquillo',
+        'lavorare gratis per visibilità',
+        'fare l’ennesimo gruppo WhatsApp',
+        'mettere una password con maiuscola numero simbolo sangue e DNA',
+        'partecipare a una riunione che poteva essere una mail'
+      ];
+
+      var footerLines = [
+        'FAQ: Posso convincerti? No.',
+        'Se stai leggendo questo, qualcuno ti ha appena detto no.',
+        'Privacy policy: non ce ne frega un cazzo, ma in modo GDPR compliant.',
+        'Questo sito è statico. Il rifiuto invece è dinamico.',
+        'Server status: acceso. Pazienza status: finita.',
+        'Errore 403: entusiasmo non autorizzato.'
+      ];
+
+      function clean(value) {
+        return (value || '').trim().replace(/\s+/g, ' ').slice(0, 140);
+      }
+
+      function getParams() {
+        return new URLSearchParams(window.location.search);
+      }
+
+      function buildUrl(text, mode) {
+        var url = new URL(window.location.href);
+        url.search = '';
+        if (text) url.searchParams.set('a', text);
+        if (mode && mode !== 'normale') url.searchParams.set('m', mode);
+        return url.toString();
+      }
+
+      function showAnswer(text, mode, push) {
+        text = clean(text) || 'dire sì a questa proposta';
+        mode = modeTexts[mode] ? mode : 'normale';
+        input.value = text;
+        requestText.textContent = '“' + text + '”';
+        certRequest.textContent = '“' + text + '”';
+        modeLine.textContent = modeTexts[mode];
+        certDate.textContent = new Date().toLocaleDateString('it-IT');
+        shareUrl.textContent = buildUrl(text, mode);
+        answer.classList.add('is-visible');
+        certificate.classList.add('is-visible');
+        copyStatus.textContent = '';
+        document.title = 'CORCAZZO a: ' + text;
+        if (push) {
+          window.history.pushState({}, '', buildUrl(text, mode));
+        }
+      }
+
+      document.getElementById('generateBtn').addEventListener('click', function () {
+        showAnswer(input.value, getParams().get('m') || 'normale', true);
+      });
+
+      document.getElementById('randomBtn').addEventListener('click', function () {
+        var pick = suggestions[Math.floor(Math.random() * suggestions.length)];
+        input.value = pick;
+        showAnswer(pick, 'normale', true);
+      });
+
+      input.addEventListener('keydown', function (event) {
+        if (event.key === 'Enter') showAnswer(input.value, 'normale', true);
+      });
+
+      document.querySelectorAll('[data-mode]').forEach(function (button) {
+        button.addEventListener('click', function () {
+          showAnswer(input.value, button.getAttribute('data-mode'), true);
+        });
+      });
+
+      document.getElementById('copyBtn').addEventListener('click', function () {
+        var text = shareUrl.textContent;
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).then(function () {
+            copyStatus.textContent = 'Copiato. Ora vai e rifiuta con stile.';
+          }).catch(function () {
+            copyStatus.textContent = text;
+          });
+        } else {
+          copyStatus.textContent = text;
+        }
+      });
+
+      document.getElementById('printBtn').addEventListener('click', function () {
+        window.print();
+      });
+
+      counter.textContent = String(69 + Math.floor(Date.now() / 86400000) % 900000).padStart(8, '0');
+      randomLine.textContent = footerLines[Math.floor(Math.random() * footerLines.length)];
+
+      var params = getParams();
+      if (params.get('a')) {
+        showAnswer(params.get('a'), params.get('m') || 'normale', false);
+      }
+    })();
+  </script>
+</body>
+</html>
