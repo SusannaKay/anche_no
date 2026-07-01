@@ -266,6 +266,42 @@
     }
     .modes strong { color: #ffff00; }
 
+    .shared-cta {
+      display: none;
+      margin-top: 16px;
+    }
+
+    .shared-cta a {
+      display: inline-block;
+      color: #000;
+      background: #c0c0c0;
+      border: 5px outset #fff;
+      padding: 10px 14px;
+      font-size: 20px;
+      font-weight: bold;
+      text-decoration: none;
+      box-shadow: 3px 3px 0 #000;
+    }
+
+    body.shared-mode .layout {
+      grid-template-columns: minmax(0, 760px);
+    }
+
+    body.shared-mode .side,
+    body.shared-mode .intro,
+    body.shared-mode .question-panel,
+    body.shared-mode .guestbook,
+    body.shared-mode .modes,
+    body.shared-mode .sharebox {
+      display: none;
+    }
+
+    body.shared-mode .answer,
+    body.shared-mode .certificate,
+    body.shared-mode .shared-cta {
+      display: block;
+    }
+
     .certificate {
       display: none;
       margin-top: 16px;
@@ -396,6 +432,10 @@
             <button type="button" data-mode="definitiva">Definitiva</button>
           </div>
 
+          <div class="shared-cta">
+            <a href="./#generator">CREA IL TUO CORCAZZO</a>
+          </div>
+
           <div class="sharebox">
             <b>Link da mandare al malcapitato:</b>
             <div class="share-url" id="shareUrl"></div>
@@ -505,6 +545,7 @@
       function showAnswer(text, mode, push) {
         text = clean(text) || 'dire sì a questa proposta';
         mode = modeTexts[mode] ? mode : 'normale';
+        if (push) document.body.classList.remove('shared-mode');
         input.value = text;
         requestText.textContent = '“' + text + '”';
         certRequest.textContent = '“' + text + '”';
@@ -562,6 +603,7 @@
 
       var params = getParams();
       if (params.get('a')) {
+        document.body.classList.add('shared-mode');
         showAnswer(params.get('a'), params.get('m') || 'normale', false);
       }
     })();
